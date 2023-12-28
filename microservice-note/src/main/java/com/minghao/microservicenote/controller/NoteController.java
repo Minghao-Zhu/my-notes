@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
-//@EnableAutoConfiguration
 public class NoteController {
     @Autowired
     private NoteService noteService;
@@ -31,8 +29,24 @@ public class NoteController {
     }
 
     @CrossOrigin
+    @GetMapping("/")
+    public ResponseEntity<?> home() {
+        HttpHeaders headers = getHeader();
+        String helloWorld = "hello world";
+        return new ResponseEntity<>(helloWorld, headers, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @PostMapping("/note")
     public ResponseEntity<?> addNote (@RequestBody Note note) {
         return new ResponseEntity<>(noteService.save(note), getHeader(), HttpStatus.CREATED);
+    }
+
+    @CrossOrigin
+    @GetMapping("note/{authorId}")
+    public ResponseEntity<?> getNotesByAuthorId(@PathVariable("authorId") String authorId) {
+        HttpHeaders headers = getHeader();
+        ArrayList<Note> notes = noteService.findNotesByAuthor(authorId);
+        return new ResponseEntity<>(notes, headers, HttpStatus.OK);
     }
 }
