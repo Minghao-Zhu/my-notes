@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 public interface UserService {
 
-    User findUserByUserId(String userId);
+    User findOneUserByUserId(String userId);
 
-    User findUserByUserName(String username);
+    User findOneUserByUsername(String username);
 
 
-    Object save(User user);
+    User save(User user);
+
 }

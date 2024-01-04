@@ -10,6 +10,5 @@ public interface NoteService {
 
     Note findOneNoteByNoteId(String noteId);
 
-
     Object save(Note note);
 }
